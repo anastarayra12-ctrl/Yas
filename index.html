@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yaser Samer — Video Editor</title>
+<meta name="description" content="Yaser Samer — long-form and short-form video editor and motion designer for content creators and promotional videos.">
+<meta property="og:title" content="Yaser Samer — Video Editor">
+<meta property="og:description" content="I craft videos that engage audiences, highlight your brand, and make your content shine.">
+<meta property="og:image" content="assets/profile.jpg">
+<meta name="theme-color" content="#0a0a0b">
+<script>
+  // apply the saved / preferred theme before first paint, so there is no flash
+  (function () {
+    var t = "dark";
+    try { t = localStorage.getItem("ys-theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"); } catch (e) {}
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%230a0a0b'/%3E%3Cg fill='none' stroke='%23f3f1ec' stroke-width='4.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 4.5 L20 14 L30 4.5'/%3E%3Cpath d='M20 14 C15.5 14 13 16.5 13 19.3 C13 22.3 16 23.8 20 24 C24 24.2 27 25.8 27 29 C27 32.3 24.3 35 20 35 C16.8 35 14.2 33.6 12.6 31.4'/%3E%3C/g%3E%3Ccircle cx='20' cy='14' r='3' fill='%23ffb547'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Intro loader: film leader countdown -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-ring">
+    <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="88"/><circle class="sweep" cx="100" cy="100" r="88"/></svg>
+    <span class="loader-num" id="loaderNum">3</span>
+  </div>
+  <div class="loader-cross"></div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="lang-wipe" id="langWipe" aria-hidden="true">
+  <div class="lw-panel p1"></div><div class="lw-panel p2"></div><div class="lw-panel p3"></div>
+  <div class="lw-label"><span class="lw-tc">00:00:00:00</span><b id="lwText">العربية</b></div>
+</div>
+<div class="cursor" id="cursor" aria-hidden="true"><span>Play</span></div>
+
+<!-- Nav -->
+<header class="nav" id="nav">
+  <a href="#top" class="brand" aria-label="Yaser Samer">
+    <span class="brand-mark"><svg class="logo" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4.5 L20 14 L30 4.5"/><path class="logo-s" d="M20 14 C15.5 14 13 16.5 13 19.3 C13 22.3 16 23.8 20 24 C24 24.2 27 25.8 27 29 C27 32.3 24.3 35 20 35 C16.8 35 14.2 33.6 12.6 31.4"/><circle class="logo-dot" cx="20" cy="14" r="3" fill="#ffb547" stroke="none"/></svg></span>
+    <span class="brand-name">Yaser Samer</span>
+  </a>
+  <nav class="nav-links">
+    <a href="#about" data-i18n="nav.about">About</a>
+    <a href="#work" data-i18n="nav.work">Work</a>
+    <a href="#clients" data-i18n="nav.clients">Clients</a>
+    <a href="#insta">Instagram</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
+  </nav>
+  <div class="nav-right">
+    <span class="status"><i></i><span data-i18n="status">Available for work</span></span>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle light / dark mode">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <mask id="moonMask"><rect width="24" height="24" fill="#fff"/><circle class="tb-cut" cx="12" cy="12" r="7" fill="#000"/></mask>
+        <circle class="tb-core" cx="12" cy="12" r="5" fill="currentColor" mask="url(#moonMask)"/>
+        <g class="tb-rays" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M12 1.5v2.2M12 20.3v2.2M1.5 12h2.2M20.3 12h2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/>
+        </g>
+      </svg>
+    </button>
+    <button class="lang" id="langBtn" type="button" aria-label="Switch language"><span class="lang-face">ع</span></button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><i></i><i></i></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <nav>
+    <a href="#about"><small>01</small><span data-i18n="nav.about">About</span></a>
+    <a href="#work"><small>02</small><span data-i18n="nav.work">Work</span></a>
+    <a href="#clients"><small>03</small><span data-i18n="nav.clients">Clients</span></a>
+    <a href="#insta"><small>04</small><span>Instagram</span></a>
+    <a href="#contact"><small>05</small><span data-i18n="nav.contact">Contact</span></a>
+  </nav>
+  <a class="mm-mail" href="mailto:yaser.sat8906@gmail.com">yaser.sat8906@gmail.com</a>
+</div>
+
+<main id="top">
+
+  <!-- HERO: 3D frame tunnel driven by scroll -->
+  <section class="hero" id="hero">
+    <div class="hero-sticky">
+      <div class="stage" id="stage">
+        <div class="tunnel" id="tunnel"></div>
+      </div>
+
+      <div class="hud" aria-hidden="true">
+        <span class="hud-corner tl"></span><span class="hud-corner tr"></span>
+        <span class="hud-corner bl"></span><span class="hud-corner br"></span>
+        <div class="hud-rec"><i></i>REC</div>
+        <div class="hud-tc" id="timecode">00:00:00:00</div>
+        <div class="hud-meta">4K · 24FPS · ISO 800</div>
+        <div class="hud-meta right">PR · AE · CAPCUT</div>
+      </div>
+
+      <div class="hero-title" id="heroTitle">
+        <a class="hero-badge" href="https://www.youtube.com/@aljazeera" target="_blank" rel="noopener">
+          <img src="assets/clients/6701.jpg" alt="">
+          <span data-i18n="hero.badge">Editor / Motion Design @ Al Jazeera</span>
+        </a>
+        <p class="eyebrow" data-i18n="hero.eyebrow">Video Editor · Motion Designer · Filmmaker</p>
+        <h1 class="mega">
+          <span class="line"><span>YASER</span></span>
+          <span class="line"><span>SAMER</span></span>
+        </h1>
+        <p class="hero-sub" data-i18n="hero.sub">Long-form &amp; short-form edits for creators, brands and broadcasters — from Al Jazeera to national campaigns.</p>
+        <div class="scroll-hint"><span data-i18n="hero.scroll">Scroll to roll the reel</span><i></i></div>
+      </div>
+
+      <div class="hero-statement" id="heroStatement">
+        <p data-i18n="hero.statement">I craft videos that <em>engage</em> audiences, <em>highlight</em> your brand, and make your content <em>shine</em>.</p>
+        <span class="ar-sign">كل شيء صُنع بحب</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap"><div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Promos</span><b>✦</b><span>Motion Graphics</span><b>✦</b><span>Long-form</span><b>✦</b><span>Short-form</span><b>✦</b><span>Broadcast</span><b>✦</b><span>Campaigns</span><b>✦</b><span>Color</span><b>✦</b><span>Sound Design</span><b>✦</b>
+      <span>Promos</span><b>✦</b><span>Motion Graphics</span><b>✦</b><span>Long-form</span><b>✦</b><span>Short-form</span><b>✦</b><span>Broadcast</span><b>✦</b><span>Campaigns</span><b>✦</b><span>Color</span><b>✦</b><span>Sound Design</span><b>✦</b>
+    </div>
+  </div></div>
+
+  <!-- ABOUT -->
+  <section class="about section" id="about">
+    <div class="about-grid">
+      <div class="portrait-wrap reveal-3d">
+        <div class="portrait" id="portrait">
+          <div class="portrait-layer back"></div>
+          <img src="assets/profile.jpg" alt="Portrait of Yaser Samer" class="portrait-img">
+          <div class="portrait-frame"></div>
+          <div class="portrait-tag">
+            <span class="dot"></span>
+            <div>
+              <strong>Yaser Samer</strong>
+              <small data-i18n="about.tag">Editor · Syria</small>
+            </div>
+          </div>
+          <div class="portrait-chip">كل شيء صُنع بحب</div>
+        </div>
+      </div>
+
+      <div class="about-copy">
+        <p class="kicker"><span>01</span> <span data-i18n="about.kicker">About</span></p>
+        <h2 class="h2 split" data-i18n="about.title">Stories cut with rhythm, intent and love.</h2>
+        <p class="lead" data-i18n="about.bio">Long-form and short-form video editor for content creators and promotional videos. I craft videos that engage audiences, highlight your brand, and make your content shine.</p>
+
+        <dl class="facts">
+          <div><dt data-i18n="about.role">Role</dt><dd data-i18n="about.roleVal">Editor / Motion Design @ Al Jazeera</dd></div>
+          <div><dt data-i18n="about.based">From</dt><dd data-i18n="about.country">Syria</dd></div>
+          <div><dt data-i18n="about.langs">Languages</dt><dd>English · العربية · Türkçe</dd></div>
+          <div><dt data-i18n="about.status">Status</dt><dd class="ok" data-i18n="status">Available for work</dd></div>
+        </dl>
+
+        <div class="stats">
+          <div class="stat"><b data-count="16.1" data-suffix="K">0</b><span data-i18n="stats.followers">Instagram followers</span></div>
+          <div class="stat"><b data-count="9" data-suffix="+">0</b><span data-i18n="stats.clients">Brands &amp; channels</span></div>
+          <div class="stat"><b data-count="7">0</b><span data-i18n="stats.tools">Tools in the kit</span></div>
+          <div class="stat"><b data-count="3">0</b><span data-i18n="stats.langs">Languages</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toolkit">
+      <div class="tool-group">
+        <h3 data-i18n="tools.edit">Editing software</h3>
+        <div class="tools">
+          <div class="tool tilt"><span class="tool-ico pr">Pr</span><span>Premiere Pro</span></div>
+          <div class="tool tilt"><span class="tool-ico ae">Ae</span><span>After Effects</span></div>
+          <div class="tool tilt"><span class="tool-ico cc">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M4 7l8-4 8 4v10l-8 4-8-4z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 10l6 4M15 10l-6 4" stroke="currentColor" stroke-width="2"/></svg>
+          </span><span>CapCut</span></div>
+        </div>
+      </div>
+      <div class="tool-group">
+        <h3 data-i18n="tools.ai">AI tools</h3>
+        <div class="tools">
+          <div class="tool tilt"><span class="tool-ico ai">Mj</span><span>Midjourney</span></div>
+          <div class="tool tilt"><span class="tool-ico ai">Kl</span><span>Kling AI</span></div>
+          <div class="tool tilt"><span class="tool-ico ai">Rw</span><span>RunwayML</span></div>
+          <div class="tool tilt"><span class="tool-ico ai">So</span><span>Sora</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK: 3D deck + editing timeline, driven by scroll -->
+  <section class="work" id="work">
+    <div class="work-sticky">
+      <div class="work-ambient" id="workAmbient" aria-hidden="true"></div>
+      <div class="work-head">
+        <p class="kicker"><span>02</span> <span data-i18n="work.kicker">Selected work</span></p>
+        <h2 class="h2" data-i18n="work.title">The reel.</h2>
+      </div>
+
+      <div class="work-body">
+        <div class="work-info" id="workInfo" aria-live="polite">
+          <div class="wi-num"><b id="wiNum">01</b><span>/ <i id="wiTotal">05</i></span></div>
+          <div class="wi-swap" id="wiSwap">
+            <div class="wi-tags" id="wiTags"></div>
+            <h3 class="wi-title" id="wiTitle"></h3>
+            <p class="wi-ar" id="wiAr"></p>
+            <p class="wi-client" id="wiClient"></p>
+          </div>
+          <button class="btn primary magnetic wi-play" id="wiPlay" type="button">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            <span data-i18n="work.play">Play film</span>
+          </button>
+        </div>
+        <div class="deck-wrap">
+          <div class="deck" id="deck" tabindex="0" aria-roledescription="carousel" aria-label="Projects — drag or use arrow keys"></div>
+          <div class="deck-ctrl">
+            <button class="deck-btn" id="deckPrev" type="button" aria-label="Previous project">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <span class="deck-hint"><i></i><span data-i18n="work.drag">Drag to browse</span></span>
+            <button class="deck-btn" id="deckNext" type="button" aria-label="Next project">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline" id="timeline">
+        <div class="tl-ruler" aria-hidden="true"></div>
+        <div class="tl-track" id="tlTrack"></div>
+        <div class="tl-head" id="tlHead" aria-hidden="true"><span id="tlTc">00:00:00</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTS: 3D rotating cylinder -->
+  <section class="clients" id="clients">
+    <div class="clients-sticky">
+      <div class="clients-head">
+        <p class="kicker"><span>03</span> <span data-i18n="clients.kicker">Trusted by</span></p>
+        <h2 class="h2" data-i18n="clients.title">Channels, ministries &amp; brands I've cut for.</h2>
+      </div>
+      <div class="ring-scene">
+        <div class="ring" id="ring"></div>
+        <div class="ring-floor"></div>
+      </div>
+      <p class="ring-caption" id="ringCaption">&nbsp;</p>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section class="insta section" id="insta">
+    <div class="insta-card reveal-3d">
+      <div class="insta-top">
+        <a class="insta-avatar" href="https://www.instagram.com/yaser.samer1/" target="_blank" rel="noopener" aria-label="Instagram @yaser.samer1">
+          <img src="assets/profile.jpg" alt="">
+        </a>
+        <div class="insta-id">
+          <p class="kicker"><span>04</span> <span data-i18n="insta.kicker">Behind the cut</span></p>
+          <h2 class="h2" data-i18n="insta.title">Follow the process.</h2>
+          <p class="insta-handle">@yaser.samer1 · <b>16.1K</b> <span data-i18n="insta.followers">followers</span></p>
+          <p class="insta-bio">Editor / Motion Design @aljazeera · Filmmaker</p>
+        </div>
+        <a class="btn primary magnetic insta-follow" href="https://www.instagram.com/yaser.samer1/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+          <span data-i18n="insta.follow">Follow on Instagram</span>
+        </a>
+      </div>
+      <div class="highlights" id="highlights"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact section" id="contact">
+    <p class="kicker center"><span>05</span> <span data-i18n="contact.kicker">Contact</span></p>
+    <h2 class="contact-title">
+      <span class="depth" data-text="LET'S">LET'S</span>
+      <span class="depth accent" data-text="CUT IT.">CUT IT.</span>
+    </h2>
+    <p class="lead center" data-i18n="contact.sub">Got footage, a campaign or a channel that needs a sharper edit? Let's talk.</p>
+    <div class="contact-actions">
+      <a class="btn primary magnetic" href="mailto:yaser.sat8906@gmail.com">
+        <span>yaser.sat8906@gmail.com</span>
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <button class="btn ghost magnetic" id="copyBtn" type="button" data-i18n="contact.copy">Copy email</button>
+      <a class="btn ghost magnetic" href="https://www.instagram.com/yaser.samer1/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+        <span>@yaser.samer1</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <span class="foot-brand"><svg class="logo sm" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4.5 L20 14 L30 4.5"/><path class="logo-s" d="M20 14 C15.5 14 13 16.5 13 19.3 C13 22.3 16 23.8 20 24 C24 24.2 27 25.8 27 29 C27 32.3 24.3 35 20 35 C16.8 35 14.2 33.6 12.6 31.4"/><circle class="logo-dot" cx="20" cy="14" r="3" fill="#ffb547" stroke="none"/></svg>© <span id="year"></span> Yaser Samer</span>
+  <span class="ar-sign small">كل شيء صُنع بحب</span>
+  <a href="#top" data-i18n="footer.top">Back to top ↑</a>
+</footer>
+
+<!-- Video modal -->
+<div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-box">
+    <button class="modal-close" type="button" data-close aria-label="Close">✕</button>
+    <div class="modal-media" id="modalMedia"></div>
+    <div class="modal-info">
+      <h3 id="modalTitle"></h3>
+      <p id="modalSub"></p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
